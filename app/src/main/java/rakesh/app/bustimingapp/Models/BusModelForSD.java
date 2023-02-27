@@ -4,7 +4,7 @@ public class BusModelForSD {
     public BusModelForSD(){
 
     }
-    private String busNumber,busSourceOrDestination;
+    private String busNumber,busSourceOrDestination,busDestinationOrSource;
 
     public String getBusNumber() {
         return busNumber;
@@ -22,8 +22,17 @@ public class BusModelForSD {
         this.busSourceOrDestination = busSourceOrDestination;
     }
 
-    public BusModelForSD(String busNumber, String busSourceOrDestination) {
+    public String getBusDestinationOrSource() {
+        return busDestinationOrSource;
+    }
+
+    public void setBusDestinationOrSource(String busDestinationOrSource) {
+        this.busDestinationOrSource = busDestinationOrSource;
+    }
+
+    public BusModelForSD(String busNumber, String busSourceOrDestination, String busDestinationOrSource) {
         this.busNumber = busNumber;
         this.busSourceOrDestination = busSourceOrDestination;
+        this.busDestinationOrSource = busDestinationOrSource;
     }
 }

@@ -89,8 +89,38 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
         busSourceList = new ArrayList<String>();
 
         busSourceList.add("Select Bus Source");
-        busSourceList.add("City Bus");
-        busSourceList.add("Private Bus");
+        busSourceList.add("Ramanujganj");
+        busSourceList.add("Balrampur");
+        busSourceList.add("Ambikapur");
+        busSourceList.add("Surjpur");
+        busSourceList.add("Jashpur");
+        busSourceList.add("Baikunthpur");
+        busSourceList.add("Raigarh");
+        busSourceList.add("Kathghora");
+        busSourceList.add("Korba");
+        busSourceList.add("Pali");
+        busSourceList.add("Ratanpur");
+        busSourceList.add("Bilaspur");
+        busSourceList.add("Champa");
+        busSourceList.add("Janjgir");
+        busSourceList.add("Raipur");
+        busSourceList.add("Bhilai");
+        busSourceList.add("Durg");
+        busSourceList.add("Rajnandgaon");
+        busSourceList.add("Balod");
+        busSourceList.add("Dalli Rajhra");
+        busSourceList.add("Bhanupratappur");
+        busSourceList.add("Narayanpur");
+        busSourceList.add("Gidam");
+        busSourceList.add("Dantewada");
+        busSourceList.add("Jagdalpur");
+        busSourceList.add("Bijapur");
+        busSourceList.add("Dhamtari");
+        busSourceList.add("Mahasamund");
+        busSourceList.add("Kanker");
+        busSourceList.add("Keshkal");
+        busSourceList.add("Sukma");
+
 
 
 
@@ -354,8 +384,8 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
                             //Using the model to set the data to firestore
                             FindYourBus.addBusNumber(busNumberStr);
                             BusModel busModel = new BusModel(busNumberStr,busTypeStr,busNameStr,sourceStr,destinationStr,sourceTimeStr,destinationTimeStr);
-                            BusModelForSD busModelForSource = new BusModelForSD(busNumberStr,sourceStr);
-                            BusModelForSD busModelForDestination = new BusModelForSD(busNumberStr,destinationStr);
+                            BusModelForSD busModelForSource = new BusModelForSD(busNumberStr,sourceStr,destinationStr);
+                            BusModelForSD busModelForDestination = new BusModelForSD(busNumberStr,destinationStr,sourceStr);
 
 
                             DocumentReference documentReference = firestore.collection("Buses").document(currentUserId).collection("Bus Number").document(busNumberStr);
