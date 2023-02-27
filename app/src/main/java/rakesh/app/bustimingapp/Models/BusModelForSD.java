@@ -1,10 +1,20 @@
 package rakesh.app.bustimingapp.Models;
 
 public class BusModelForSD {
+
+    private String busDestination,busNumber,busSource;
+
     public BusModelForSD(){
 
     }
-    private String busNumber,busSourceOrDestination,busDestinationOrSource;
+
+    public String getBusDestination() {
+        return busDestination;
+    }
+
+    public void setBusDestination(String busDestination) {
+        this.busDestination = busDestination;
+    }
 
     public String getBusNumber() {
         return busNumber;
@@ -14,25 +24,18 @@ public class BusModelForSD {
         this.busNumber = busNumber;
     }
 
-    public String getBusSourceOrDestination() {
-        return busSourceOrDestination;
+    public String getBusSource() {
+        return busSource;
     }
 
-    public void setBusSourceOrDestination(String busSourceOrDestination) {
-        this.busSourceOrDestination = busSourceOrDestination;
+    public void setBusSource(String busSource) {
+        this.busSource = busSource;
     }
 
-    public String getBusDestinationOrSource() {
-        return busDestinationOrSource;
-    }
-
-    public void setBusDestinationOrSource(String busDestinationOrSource) {
-        this.busDestinationOrSource = busDestinationOrSource;
-    }
-
-    public BusModelForSD(String busNumber, String busSourceOrDestination, String busDestinationOrSource) {
+    public BusModelForSD(String busDestination, String busNumber, String busSource) {
+        this.busDestination = busDestination;
         this.busNumber = busNumber;
-        this.busSourceOrDestination = busSourceOrDestination;
-        this.busDestinationOrSource = busDestinationOrSource;
+        this.busSource = busSource;
     }
 }
+
