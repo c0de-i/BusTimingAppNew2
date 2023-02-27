@@ -46,15 +46,16 @@ import rakesh.app.bustimingapp.Auth.SignInPage;
 import rakesh.app.bustimingapp.FindYourBus.FindYourBus;
 import rakesh.app.bustimingapp.Models.BusModel;
 import rakesh.app.bustimingapp.Home.MainActivity;
-import rakesh.app.bustimingapp.Profile2;
+import rakesh.app.bustimingapp.Models.BusModelForSD;
 import rakesh.app.bustimingapp.R;
 
 public class BusRegistrationPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Spinner busType;
-    String busTypeString;
+    Spinner busType,source,destination;
+    String busTypeString, busSourceString, busDestinationString;
     List<String> busTypeList;
-
+    List<String> busSourceList;
+    List<String> busDestinationList;
     TimePickerDialog picker;
     TextView tvSourceTime,tvDestinationTime;
 
@@ -65,9 +66,11 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
     NavigationView navigationView;
     Toolbar toolbar;
 
-    EditText busNumber,busName,source,destination;
+    EditText busNumber,busName;
     TextView sourceTime,destinationTime;
     FirebaseFirestore firestore;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,12 +78,29 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
 
         //Getting busType, selecting from the spinner.
         busType = findViewById(R.id.sBusType);
-
+        source = findViewById(R.id.etSource);
+        destination = findViewById(R.id.etDestination);
         // Spinner Drop down elements
         busTypeList= new ArrayList<String>();
         busTypeList.add("Select Bus Type");
         busTypeList.add("City Bus");
         busTypeList.add("Private Bus");
+
+        busSourceList = new ArrayList<String>();
+
+        busSourceList.add("Select Bus Source");
+        busSourceList.add("City Bus");
+        busSourceList.add("Private Bus");
+
+
+
+        busDestinationList = new ArrayList<String>();
+
+        busDestinationList.add("Select Bus Destination");
+        busDestinationList.add("City Bus");
+        busDestinationList.add("Private Bus");
+
+
 
 
         // Creating adapter for spinner
@@ -92,6 +112,27 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
         // attaching data adapter to spinner
         busType.setAdapter(busTypeAdapter);
         busType.setOnItemSelectedListener(this);
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> busSourceAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, busSourceList);
+
+        // Drop down layout style - list view with radio button
+        busSourceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        source.setAdapter(busSourceAdapter);
+        source.setOnItemSelectedListener(this);
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> busDestinationAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, busDestinationList);
+
+        // Drop down layout style - list view with radio button
+        busDestinationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        destination.setAdapter(busDestinationAdapter);
+        destination.setOnItemSelectedListener(this);
+
 
         tvSourceTime = findViewById(R.id.tvSourceTime);
         tvDestinationTime = findViewById(R.id.tvDestinationTime);
@@ -155,13 +196,6 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
-
-                    case R.id.user_profile:
-                        startActivity(new Intent(getApplicationContext(), Profile2.class));
-                        Toast.makeText(getApplicationContext(),"profile",Toast.LENGTH_SHORT).show();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-
                     case R.id.menu_home:
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         Toast.makeText(getApplicationContext(),"Home",Toast.LENGTH_SHORT).show();
@@ -199,8 +233,7 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
         //busType already set.
         busNumber = findViewById(R.id.etBusNum);
         busName = findViewById(R.id.etBusName);
-        source = findViewById(R.id.etSource);
-        destination = findViewById(R.id.etDestination);
+
         sourceTime = findViewById(R.id.tvSourceTime);
         destinationTime = findViewById(R.id.tvDestinationTime);
 
@@ -215,6 +248,13 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
         if(busTypeList.get(i) != busTypeList.get(0)){
             busTypeString = busTypeList.get(i);
             Toast.makeText(getApplicationContext(), ""+ busTypeString,Toast.LENGTH_SHORT).show();
+        }
+
+        if(busSourceList.get(i)!=busSourceList.get(0)){
+            busSourceString = busSourceList.get(i);
+        }
+        if(busDestinationList.get(i)!=busDestinationList.get(0)){
+            busDestinationString = busDestinationList.get(i);
         }
     }
 
@@ -270,8 +310,17 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
             busTypeStr = "Other Type";
             Toast.makeText(getApplicationContext(), "bus type is empty!!!",Toast.LENGTH_SHORT).show();
         }
-        sourceStr = source.getText().toString();
-        destinationStr = destination.getText().toString();
+
+        if(busSourceString != null){
+            sourceStr = busSourceString;
+        }else {
+            sourceStr = "Unknown Source";
+        }
+        if(busDestinationString != null){
+            destinationStr = busDestinationString;
+        }else {
+            destinationStr = "Unknown Destination";
+        }
         sourceTimeStr = sourceTime.getText().toString();
         destinationTimeStr = destinationTime.getText().toString();
 
@@ -282,12 +331,6 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
         else if(TextUtils.isEmpty(busNameStr)){
             busName.setError("Bus Name cannot be empty");
             busName.requestFocus();
-        }else if(TextUtils.isEmpty(sourceStr)){
-            source.setError("Source cannot be empty");
-            source.requestFocus();
-        }else if(TextUtils.isEmpty(destinationStr)){
-            destination.setError("Bus Name cannot be empty");
-            destination.requestFocus();
         }else if(TextUtils.isEmpty(sourceTimeStr)){
             sourceTime.setError("Bus Name cannot be empty");
             sourceTime.requestFocus();
@@ -311,13 +354,42 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
                             //Using the model to set the data to firestore
                             FindYourBus.addBusNumber(busNumberStr);
                             BusModel busModel = new BusModel(busNumberStr,busTypeStr,busNameStr,sourceStr,destinationStr,sourceTimeStr,destinationTimeStr);
+                            BusModelForSD busModelForSource = new BusModelForSD(busNumberStr,sourceStr);
+                            BusModelForSD busModelForDestination = new BusModelForSD(busNumberStr,destinationStr);
+
 
                             DocumentReference documentReference = firestore.collection("Buses").document(currentUserId).collection("Bus Number").document(busNumberStr);
-
+                            DocumentReference documentSourceRef = firestore.collection("AllBusStops").document(sourceStr);
+                            DocumentReference documentDestinationRef = firestore.collection("AllBusDestination").document(destinationStr);
 //                            // This map method if you don't use any model.
 //                            Map<String,Object> user = new HashMap<>();
 //                            user.put("Bus Type",busTypeStr);
 //
+
+                            documentSourceRef.set(busModelForSource).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG,"Error : " + e.toString());
+
+                                }
+                            });
+                            documentDestinationRef.set(busModelForDestination).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG,"Error : " + e.toString());
+
+                                }
+                            });
                             documentReference.set(busModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
@@ -331,6 +403,7 @@ public class BusRegistrationPage extends AppCompatActivity implements AdapterVie
 
                                 }
                             });
+
 
                             finish();
                         }
