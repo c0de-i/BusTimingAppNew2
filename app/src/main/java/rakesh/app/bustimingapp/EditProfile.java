@@ -48,7 +48,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 
-public class EditProfilePage extends AppCompatActivity {
+public class EditProfile extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -72,7 +72,7 @@ public class EditProfilePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.editprofilepage);
+        setContentView(R.layout.activity_edit_profile);
 
         profilepic = findViewById(R.id.profilepic);
         editname = findViewById(R.id.editname);
@@ -96,7 +96,7 @@ public class EditProfilePage extends AppCompatActivity {
                     String image = "" + dataSnapshot1.child("image").getValue();
 
                     try {
-                        Glide.with(EditProfilePage.this).load(image).into(set);
+                        Glide.with(EditProfile.this).load(image).into(set);
                     } catch (Exception e) {
                     }
                 }
@@ -146,7 +146,7 @@ public class EditProfilePage extends AppCompatActivity {
                     String image = "" + dataSnapshot1.child("image").getValue();
 
                     try {
-                        Glide.with(EditProfilePage.this).load(image).into(set);
+                        Glide.with(EditProfile.this).load(image).into(set);
                     } catch (Exception e) {
                     }
 
@@ -180,7 +180,7 @@ public class EditProfilePage extends AppCompatActivity {
                     String image = "" + dataSnapshot1.child("image").getValue();
 
                     try {
-                        Glide.with(EditProfilePage.this).load(image).into(set);
+                        Glide.with(EditProfile.this).load(image).into(set);
                     } catch (Exception e) {
                     }
 
@@ -242,11 +242,11 @@ public class EditProfilePage extends AppCompatActivity {
                 String oldp = oldpass.getText().toString().trim();
                 String newp = newpass.getText().toString().trim();
                 if (TextUtils.isEmpty(oldp)) {
-                    Toast.makeText(EditProfilePage.this, "Current Password cant be empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditProfile.this, "Current Password cant be empty", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (TextUtils.isEmpty(newp)) {
-                    Toast.makeText(EditProfilePage.this, "New Password cant be empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditProfile.this, "New Password cant be empty", Toast.LENGTH_LONG).show();
                     return;
                 }
                 dialog.dismiss();
@@ -270,13 +270,13 @@ public class EditProfilePage extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         pd.dismiss();
-                                        Toast.makeText(EditProfilePage.this, "Changed Password", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(EditProfile.this, "Changed Password", Toast.LENGTH_LONG).show();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         pd.dismiss();
-                                        Toast.makeText(EditProfilePage.this, "Failed", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(EditProfile.this, "Failed", Toast.LENGTH_LONG).show();
                                     }
                                 });
                     }
@@ -284,7 +284,7 @@ public class EditProfilePage extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        Toast.makeText(EditProfilePage.this, "Failed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditProfile.this, "Failed", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -319,13 +319,13 @@ public class EditProfilePage extends AppCompatActivity {
                             pd.dismiss();
 
                             // after updated we will show updated
-                            Toast.makeText(EditProfilePage.this, " updated ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditProfile.this, " updated ", Toast.LENGTH_LONG).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             pd.dismiss();
-                            Toast.makeText(EditProfilePage.this, "Unable to update", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditProfile.this, "Unable to update", Toast.LENGTH_LONG).show();
                         }
                     });
                     if (key.equals("name")) {
@@ -347,7 +347,7 @@ public class EditProfilePage extends AppCompatActivity {
                         });
                     }
                 } else {
-                    Toast.makeText(EditProfilePage.this, "Unable to update", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditProfile.this, "Unable to update", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -476,25 +476,25 @@ public class EditProfilePage extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             pd.dismiss();
-                            Toast.makeText(EditProfilePage.this, "Updated", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditProfile.this, "Updated", Toast.LENGTH_LONG).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             pd.dismiss();
-                            Toast.makeText(EditProfilePage.this, "Error Updating ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditProfile.this, "Error Updating ", Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {
                     pd.dismiss();
-                    Toast.makeText(EditProfilePage.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditProfile.this, "Error", Toast.LENGTH_LONG).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
-                Toast.makeText(EditProfilePage.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(EditProfile.this, "Error", Toast.LENGTH_LONG).show();
             }
         });
     }

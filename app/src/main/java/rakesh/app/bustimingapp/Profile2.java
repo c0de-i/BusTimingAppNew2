@@ -20,7 +20,7 @@ public class Profile2 extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Profile2.this,EditProfilePage.class);
+                Intent i = new Intent(Profile2.this,EditProfile.class);
                 startActivity(i);
             }
         });
