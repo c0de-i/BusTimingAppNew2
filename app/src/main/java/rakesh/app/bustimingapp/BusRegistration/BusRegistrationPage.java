@@ -44,9 +44,11 @@ import java.util.List;
 
 import rakesh.app.bustimingapp.Auth.SignInPage;
 import rakesh.app.bustimingapp.FindYourBus.FindYourBus;
+import rakesh.app.bustimingapp.Models.BusFindModel;
 import rakesh.app.bustimingapp.Models.BusModel;
 import rakesh.app.bustimingapp.Home.MainActivity;
 import rakesh.app.bustimingapp.Models.BusModelForSD;
+import rakesh.app.bustimingapp.Profile2;
 import rakesh.app.bustimingapp.R;
 
 public class BusRegistrationPage extends AppCompatActivity  {
@@ -129,52 +131,10 @@ public class BusRegistrationPage extends AppCompatActivity  {
         busDestinationList = new ArrayList<String>();
 
         busDestinationList.add("Select Bus Destination");
-        busDestinationList.add("Ramanujganj");
-        busDestinationList.add("Balrampur");
-        busDestinationList.add("Ambikapur");
-        busDestinationList.add("Surjpur");
-        busDestinationList.add("Jashpur");
-        busDestinationList.add("Baikunthpur");
-        busDestinationList.add("Raigarh");
-        busDestinationList.add("Kathghora");
-        busDestinationList.add("Korba");
-        busDestinationList.add("Pali");
-        busDestinationList.add("Ratanpur");
-        busDestinationList.add("Bilaspur");
-        busDestinationList.add("Champa");
-        busDestinationList.add("Janjgir");
-        busDestinationList.add("Raipur");
-        busDestinationList.add("Bhilai");
-        busDestinationList.add("Durg");
-        busDestinationList.add("Rajnandgaon");
-        busDestinationList.add("Balod");
-        busDestinationList.add("Dalli Rajhra");
-        busDestinationList.add("Bhanupratappur");
-        busDestinationList.add("Narayanpur");
-        busDestinationList.add("Gidam");
-        busDestinationList.add("Dantewada");
-        busDestinationList.add("Jagdalpur");
-        busDestinationList.add("Bijapur");
-        busDestinationList.add("Dhamtari");
-        busDestinationList.add("Mahasamund");
-        busDestinationList.add("Kanker");
-        busDestinationList.add("Keshkal");
-        busDestinationList.add("Sukma");
+        busDestinationList.addAll(busSourceList);
 
 
-        destination.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(busDestinationList.get(i)!=busDestinationList.get(0)){
-                    busDestinationString = busDestinationList.get(i);
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
 
         // Creating adapter for spinner
@@ -301,6 +261,11 @@ public class BusRegistrationPage extends AppCompatActivity  {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
+                    case R.id.user_profile:
+                        startActivity(new Intent(getApplicationContext(), Profile2.class));
+                        Toast.makeText(getApplicationContext(),"profile",Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
                     case R.id.menu_home:
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         Toast.makeText(getApplicationContext(),"Home",Toast.LENGTH_SHORT).show();
@@ -460,18 +425,19 @@ public class BusRegistrationPage extends AppCompatActivity  {
                             //Using the model to set the data to firestore
                             FindYourBus.addBusNumber(busNumberStr);
                             BusModel busModel = new BusModel(busNumberStr,busTypeStr,busNameStr,sourceStr,destinationStr,sourceTimeStr,destinationTimeStr);
-                            BusModelForSD busModelForSource = new BusModelForSD(destinationStr,busNumberStr,sourceStr);
+                            BusModelForSD busModelForSource = new BusModelForSD(destinationStr,busNumberStr,sourceStr,0);
 
 
                             DocumentReference documentReference = firestore.collection("Buses").document(currentUserId).collection("Bus Number").document(busNumberStr);
-                            DocumentReference documentSourceRef = firestore.collection("AllBusStops").document(sourceStr);
+//                            DocumentReference documentSourceRef = firestore.collection("AllBusStops").document(sourceStr).collection(busNumberStr).document(""+0);
                             DocumentReference documentDestinationRef = firestore.collection("AllBusDestination").document(destinationStr);
+
+                            DocumentReference documentRefBusNumber =firestore.collection("BusNumberDetails").document(busNumberStr);
 //                            // This map method if you don't use any model.
 //                            Map<String,Object> user = new HashMap<>();
 //                            user.put("Bus Type",busTypeStr);
 //
-
-                            documentSourceRef.set(busModelForSource).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            documentRefBusNumber.set(busModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
 
@@ -483,6 +449,20 @@ public class BusRegistrationPage extends AppCompatActivity  {
 
                                 }
                             });
+
+                            // not need for just because of if you enter the stops details.
+//                            documentSourceRef.set(busModelForSource).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void unused) {
+//
+//                                }
+//                            }).addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    Log.d(TAG,"Error : " + e.toString());
+//
+//                                }
+//                            });
 
                             documentReference.set(busModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

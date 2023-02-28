@@ -1,3 +1,4 @@
+
 package rakesh.app.bustimingapp.Adapters;
 
 import android.app.AlertDialog;
@@ -47,6 +48,7 @@ public class StopsDetailsDataAdapter extends RecyclerView.Adapter<StopsDetailsDa
     public void onBindViewHolder(@NonNull StopsDetailsDataHolder holder, int position) {
         holder.busStopIndex.setText(busStopsModelData.get(position).getStopsIndex());
         holder.busStopName.setText(busStopsModelData.get(position).getBusStopName());
+        holder.busNextStopName.setText(busStopsModelData.get(position).getBusNextStopName());
         holder.busReachTime.setText(busStopsModelData.get(position).getBusReachTime());
         holder.busExitTime.setText(busStopsModelData.get(position).getBusExitTime());
         holder.busWaitingTime.setText(busStopsModelData.get(position).getBusWaitingTime());
@@ -115,9 +117,9 @@ public class StopsDetailsDataAdapter extends RecyclerView.Adapter<StopsDetailsDa
         return busStopsModelData.size();
     }
 
-        class StopsDetailsDataHolder extends RecyclerView.ViewHolder{
+    class StopsDetailsDataHolder extends RecyclerView.ViewHolder{
         TextView busStopIndex;
-        TextView busStopName,busReachTime,busExitTime,busWaitingTime;
+        TextView busStopName,busNextStopName,busReachTime,busExitTime,busWaitingTime;
 
         ImageView editStopBtn, deleteStopBtn;
         AlertDialog.Builder editStopBtnBuilder,deleteStopBtnBuilder;
@@ -126,22 +128,23 @@ public class StopsDetailsDataAdapter extends RecyclerView.Adapter<StopsDetailsDa
 
         ImageView editBusReachTime,editBusExitTime;
         EditText editBusStopName,editBusWaitingTime;
-            public StopsDetailsDataHolder(@NonNull View itemView) {
-                super(itemView);
-                busStopIndex = itemView.findViewById(R.id.asdsBusStopIndex);
-                busStopName  = itemView.findViewById(R.id.asdsBusStopName);
-                busReachTime = itemView.findViewById(R.id.asdsBusReachTime);
-                busExitTime = itemView.findViewById(R.id.asdsBusExitTime);
-                busWaitingTime  = itemView.findViewById(R.id.asdsBusWaitingTime);
+        public StopsDetailsDataHolder(@NonNull View itemView) {
+            super(itemView);
+            busStopIndex = itemView.findViewById(R.id.asdsBusStopIndex);
+            busStopName  = itemView.findViewById(R.id.asdsBusStopName);
+            busNextStopName = itemView.findViewById(R.id.asdsBusNextStopName);
+            busReachTime = itemView.findViewById(R.id.asdsBusReachTime);
+            busExitTime = itemView.findViewById(R.id.asdsBusExitTime);
+            busWaitingTime  = itemView.findViewById(R.id.asdsBusWaitingTime);
 
-                editStopBtn = itemView.findViewById(R.id.asdsEditStop);
-                deleteStopBtn = itemView.findViewById(R.id.asdsDeleteStop);
+            editStopBtn = itemView.findViewById(R.id.asdsEditStop);
+            deleteStopBtn = itemView.findViewById(R.id.asdsDeleteStop);
 
-                editStopBtnBuilder = new AlertDialog.Builder(addStopsPage); // 'addStops' is working as this key
-                deleteStopBtnBuilder = new AlertDialog.Builder(addStopsPage); // 'addStops' is working as this key
+            editStopBtnBuilder = new AlertDialog.Builder(addStopsPage); // 'addStops' is working as this key
+            deleteStopBtnBuilder = new AlertDialog.Builder(addStopsPage); // 'addStops' is working as this key
 
 
 
-            }
         }
+    }
 }
